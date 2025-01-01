@@ -14,9 +14,16 @@ router.get("/", (req, res, next) => {
 router.get("/:id", (req, res, next) => {
   Projects.get(req.params.id)
     .then((project) => {
-      if (project) res.status(200).json(project);
+      if (project) {
+        res.status(200).json(project);
+      } else {
+        next({ status: 404, message: "Project not found" });
+      }
     })
-    .catch((err) => next({ status: 404, message: "Project not found" }));
+    .catch((error) => {
+      console.error(error); // Log the error for debugging
+      next({ message: "We ran into an error retrieving the project" });
+    });
 });
 
 module.exports = router;
