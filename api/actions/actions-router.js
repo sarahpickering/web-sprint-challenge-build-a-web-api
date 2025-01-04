@@ -4,6 +4,7 @@ const { validateActionId, validateAction } = require("./actions-middlware");
 
 const router = express.Router();
 
+// [GET] -> get()
 router.get("/", async (req, res) => {
   try {
     const action = await Action.get();
@@ -18,10 +19,12 @@ router.get("/", async (req, res) => {
   }
 });
 
+// [GET] -> get()
 router.get("/:id", validateActionId, async (req, res) => {
   res.json(req.action);
 });
 
+// [POST] -> insert()
 router.post("/", async (req, res) => {
   try {
     const { notes, description, project_id } = req.body;
@@ -45,6 +48,7 @@ router.post("/", async (req, res) => {
   }
 });
 
+// [PUT] -> update()
 router.put("/:id", async (req, res) => {
   try {
     const { id } = req.params;
@@ -71,7 +75,7 @@ router.put("/:id", async (req, res) => {
       .json({ message: "The project information could not be modified" });
   }
 });
-
+// [DELETE] -> remove()
 router.delete("/:id", async (req, res) => {
   try {
     const { id } = req.params;
